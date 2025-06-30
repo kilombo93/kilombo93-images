@@ -575,6 +575,27 @@
             color: var(--text-primary);
             margin-bottom: 5px;
             line-height: 1.3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .expand-icon {
+            color: var(--primary-green);
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .expand-icon:hover {
+            background: rgba(40, 167, 69, 0.2);
+            transform: scale(1.05);
         }
 
         .product-sku {
@@ -941,7 +962,7 @@
             filter: brightness(1.1);
         }
 
-        /* Image Overlay */
+        /* Image Container */
         .image-container {
             position: relative;
             overflow: hidden;
@@ -949,45 +970,17 @@
         }
 
         .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .image-container:hover .image-overlay {
-            opacity: 1;
+            display: none; /* Removido o overlay de hover */
         }
 
         .expand-text {
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-            background: rgba(40, 167, 69, 0.9);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: none; /* Removido o texto de expandir */
         }
 
         /* Mobile touch support */
         @media (max-width: 768px) {
             .image-overlay {
-                opacity: 0;
-            }
-            
-            .image-container.touched .image-overlay {
-                opacity: 1;
+                display: none;
             }
         }
 
@@ -1740,37 +1733,8 @@
             document.getElementById('phone').addEventListener('input', formatPhone);
             
             // Mobile touch support for image overlay
-            addMobileTouchSupport();
         });
 
-        // Add mobile touch support for image containers
-        function addMobileTouchSupport() {
-            // Add touch event listeners after products are rendered
-            setTimeout(() => {
-                const imageContainers = document.querySelectorAll('.image-container');
-                imageContainers.forEach(container => {
-                    let touchTimer;
-                    
-                    container.addEventListener('touchstart', function(e) {
-                        touchTimer = setTimeout(() => {
-                            this.classList.add('touched');
-                        }, 100);
-                    });
-                    
-                    container.addEventListener('touchend', function(e) {
-                        clearTimeout(touchTimer);
-                        setTimeout(() => {
-                            this.classList.remove('touched');
-                        }, 2000);
-                    });
-                    
-                    container.addEventListener('touchmove', function(e) {
-                        clearTimeout(touchTimer);
-                        this.classList.remove('touched');
-                    });
-                });
-            }, 500);
-        }
 
         // Render products
         function renderProducts() {
@@ -1830,15 +1794,15 @@
             card.innerHTML = `
                 <div class="image-container">
                     <img src="${product.image}" alt="${product.name}" class="product-image" onclick="openImageModal('${product.image}', '${product.name}')" onerror="this.style.display='none'">
-                    <div class="image-overlay">
-                        <div class="expand-text">
-                            <i class="fas fa-expand-alt"></i>
-                            Expandir foto
-                        </div>
-                    </div>
                 </div>
                 <div class="product-header">
-                    <div class="product-name">${product.name}</div>
+                    <div class="product-name">
+                        ${product.name}
+                        <span class="expand-icon" onclick="openImageModal('${product.image}', '${product.name}')">
+                            <i class="fas fa-search-plus"></i>
+                            <span>expandir foto</span>
+                        </span>
+                    </div>
                     <div class="product-sku">SKU: ${product.id}</div>
                     <div class="product-price">R$ ${formatCurrency(product.price)}</div>
                     <div class="product-margin">${product.margin}</div>
