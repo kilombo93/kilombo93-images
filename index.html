@@ -166,20 +166,20 @@
             100% { left: 100%; }
         }
 
-        .logo {
-            max-width: 300px;
-            height: auto;
+        .logo-image {
+            height: 120px;
+            width: auto;
             margin: 0 auto 20px auto;
             display: block;
             transition: all 0.3s ease;
         }
 
         .logo-dark {
-            display: block;
+            display: none;
         }
 
         .logo-light {
-            display: none;
+            display: block;
         }
 
         body.light-theme .logo-dark {
@@ -188,6 +188,14 @@
 
         body.light-theme .logo-light {
             display: block;
+        }
+
+        body.dark-theme .logo-dark {
+            display: block;
+        }
+
+        body.dark-theme .logo-light {
+            display: none;
         }
 
         .whatsapp-text {
@@ -517,7 +525,7 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Products Grid */
+          /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -542,7 +550,7 @@
         }
 
         .product-card::before {
-            content: '';
+            content: \'\';
             position: absolute;
             top: 0;
             left: 0;
@@ -557,9 +565,7 @@
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 15px;
-        }
-
-        .product-header {
+        }.product-header {
             margin-bottom: 15px;
         }
 
@@ -1091,21 +1097,15 @@
     <div class="container">
         <div class="header">
             <div class="logo-container">
-                <img src="images/Kilombo93_semcor.png" 
+                <img src="images/Kilombo93_preto.png" 
                      alt="Kilombo 93 Logo" 
                      class="logo-image logo-light" 
                      id="logo-light">
-                <img src="images/Kilombo93_preto.png" 
+                <img src="images/Kilombo93_semcor.png" 
                      alt="Kilombo 93 Logo" 
                      class="logo-image logo-dark" 
                      id="logo-dark" 
                      style="display: none;">
-                <div class="logo-text">
-                    <h1 style="font-size: 3em; font-weight: bold; color: var(--primary-green); margin: 0; font-family: 'Arial', sans-serif;">
-                        Kilombo 93
-                    </h1>
-                    <p style="font-size: 1.2em; color: var(--text-secondary); margin: 5px 0 0 0;">ATACADO</p>
-                </div>
             </div>
             <div class="whatsapp-text">
                 Boas vindas ao ambiente de compras em atacado do Kilombo 93. Estamos prontos e empolgados para receber o seu pedido.
