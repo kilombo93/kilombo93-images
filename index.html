@@ -520,7 +520,7 @@
         /* Products Grid */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
             margin-top: 25px;
         }
@@ -553,11 +553,10 @@
 
         .product-image {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 15px;
-            aspect-ratio: 1;
         }
 
         .product-header {
@@ -955,7 +954,7 @@
         }
 
         .logo-image {
-            height: 120px;
+            height: 80px;
             width: auto;
             transition: all 0.3s ease;
         }
@@ -1092,15 +1091,21 @@
     <div class="container">
         <div class="header">
             <div class="logo-container">
-                <img src="images/Kilombo93_preto.png" 
-                     alt="Kilombo 93 Logo" 
-                     class="logo-image logo-dark" 
-                     id="logo-dark">
                 <img src="images/Kilombo93_semcor.png" 
                      alt="Kilombo 93 Logo" 
                      class="logo-image logo-light" 
-                     id="logo-light" 
+                     id="logo-light">
+                <img src="images/Kilombo93_preto.png" 
+                     alt="Kilombo 93 Logo" 
+                     class="logo-image logo-dark" 
+                     id="logo-dark" 
                      style="display: none;">
+                <div class="logo-text">
+                    <h1 style="font-size: 3em; font-weight: bold; color: var(--primary-green); margin: 0; font-family: 'Arial', sans-serif;">
+                        Kilombo 93
+                    </h1>
+                    <p style="font-size: 1.2em; color: var(--text-secondary); margin: 5px 0 0 0;">ATACADO</p>
+                </div>
             </div>
             <div class="whatsapp-text">
                 Boas vindas ao ambiente de compras em atacado do Kilombo 93. Estamos prontos e empolgados para receber o seu pedido.
