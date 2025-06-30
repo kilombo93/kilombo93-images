@@ -565,37 +565,6 @@
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 15px;
-        }
-
-        .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-        }
-
-        .product-card:hover .image-overlay {
-            opacity: 1;
-        }
-
-        .image-overlay i {
-            color: white;
-            font-size: 3em;
-        }
-
-        .image-overlay span {
-            color: white;
-            font-size: 1.2em;
-            margin-left: 10px;
         }.product-header {
             margin-bottom: 15px;
         }
@@ -964,11 +933,62 @@
         .product-image {
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .product-image:hover {
             transform: scale(1.05);
             filter: brightness(1.1);
+        }
+
+        /* Image Overlay */
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .image-container:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .expand-text {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background: rgba(40, 167, 69, 0.9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Mobile touch support */
+        @media (max-width: 768px) {
+            .image-overlay {
+                opacity: 0;
+            }
+            
+            .image-container.touched .image-overlay {
+                opacity: 1;
+            }
         }
 
         .header {
@@ -1718,7 +1738,39 @@
             
             // Phone formatting
             document.getElementById('phone').addEventListener('input', formatPhone);
+            
+            // Mobile touch support for image overlay
+            addMobileTouchSupport();
         });
+
+        // Add mobile touch support for image containers
+        function addMobileTouchSupport() {
+            // Add touch event listeners after products are rendered
+            setTimeout(() => {
+                const imageContainers = document.querySelectorAll('.image-container');
+                imageContainers.forEach(container => {
+                    let touchTimer;
+                    
+                    container.addEventListener('touchstart', function(e) {
+                        touchTimer = setTimeout(() => {
+                            this.classList.add('touched');
+                        }, 100);
+                    });
+                    
+                    container.addEventListener('touchend', function(e) {
+                        clearTimeout(touchTimer);
+                        setTimeout(() => {
+                            this.classList.remove('touched');
+                        }, 2000);
+                    });
+                    
+                    container.addEventListener('touchmove', function(e) {
+                        clearTimeout(touchTimer);
+                        this.classList.remove('touched');
+                    });
+                });
+            }, 500);
+        }
 
         // Render products
         function renderProducts() {
@@ -1775,11 +1827,17 @@
                 `;
             }
 
-            card.innerHTML = `                <img src="${product.image}" alt="${product.name}" class="product-image" onclick="openImageModal(\'${product.image}\', \'${product.name}\')" onerror="this.style.display=\'none\'">
-                <div class="image-overlay" onclick="openImageModal(\'${product.image}\', \'${product.name}\')">
-                    <i class="fas fa-search-plus"></i>
-                    <span>Expandir</span>
-                </div>            <div class="product-header">
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onclick="openImageModal('${product.image}', '${product.name}')" onerror="this.style.display='none'">
+                    <div class="image-overlay">
+                        <div class="expand-text">
+                            <i class="fas fa-expand-alt"></i>
+                            Expandir foto
+                        </div>
+                    </div>
+                </div>
+                <div class="product-header">
                     <div class="product-name">${product.name}</div>
                     <div class="product-sku">SKU: ${product.id}</div>
                     <div class="product-price">R$ ${formatCurrency(product.price)}</div>
